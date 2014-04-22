@@ -21,7 +21,7 @@ namespace WindowsGame1
         private Color tintColor = Color.White;
         private float rotation = 0.0f;
 
-        public int ColloisionRadius = 0;
+        public int CollisionRadius = 0;
         public int BoundingXPadding = 0;
         public int BoundingYPadding = 0;
 
@@ -129,7 +129,7 @@ namespace WindowsGame1
         public bool IsCircleCollding(Vector2 otherCenter, float otherRadius)
         {
             if (Vector2.Distance(Center, otherCenter) <
-                    (ColloisionRadius + otherRadius))
+                    (CollisionRadius + otherRadius))
                 return true;
             else
                 return false;

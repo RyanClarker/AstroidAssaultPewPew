@@ -36,7 +36,7 @@ namespace WindowsGame1
                         frameRectangle,
                         starVelocity));
                 Color starColor = colors[rand.Next(0, colors.Count())];
-                starColor *= (float)(rand.Next(30, 80) / 100);
+                starColor *= (float)(rand.Next(30, 80) / 100f);
                 stars[stars.Count() - 1].TintColor = starColor;
             }
         }
@@ -53,5 +53,14 @@ namespace WindowsGame1
                 }
             }
         }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            foreach (Sprite star in stars)
+            {
+                star.Draw(spriteBatch);
+            }
+        }
+
     }
 }

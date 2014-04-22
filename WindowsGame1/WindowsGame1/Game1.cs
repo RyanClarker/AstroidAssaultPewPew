@@ -19,9 +19,11 @@ namespace WindowsGame1
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         enum GameStates { TitleScreen, Playing, PlayerDead, GameOver};
-        GameStates gameState = GameStates.TitleScreen;
+        GameStates gameState = GameStates.Playing;
         Texture2D titleScreen;
         Texture2D spriteSheet;
+        StarField starField;
+        AsteroidManager asteroidManager;
 
         public Game1()
         {
@@ -57,6 +59,21 @@ namespace WindowsGame1
             titleScreen = Content.Load<Texture2D>(@"Textures/TitleScreen");
             spriteSheet = Content.Load<Texture2D>(@"Textures/SpriteSheet");
 
+            starField = new StarField(
+                this.Window.ClientBounds.Width,
+                this.Window.ClientBounds.Height,
+                200,
+                new Vector2(0, 30f),
+                spriteSheet,
+                new Rectangle(0, 450, 2, 2));
+
+            asteroidManager = new AsteroidManager(
+                10,
+                spriteSheet,
+                new Rectangle(0, 0, 50, 50),
+                20,
+                this.Window.ClientBounds.Width,
+                this.Window.ClientBounds.Height);
             // TODO: use this.Content to load your game content here
         }
 
@@ -86,7 +103,7 @@ namespace WindowsGame1
                 case GameStates.TitleScreen:
                     break;
 
-                case GameStates.Playing:
+                case GameStates.Playing: starField.Update(gameTime); asteroidManager.Update(gameTime);
                     break;
 
                 case GameStates.PlayerDead:
@@ -104,7 +121,7 @@ namespace WindowsGame1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
@@ -120,6 +137,8 @@ namespace WindowsGame1
                 (gameState == GameStates.PlayerDead) ||
                 (gameState == GameStates.GameOver))
             {
+                starField.Draw(spriteBatch);
+                asteroidManager.Draw(spriteBatch);
             }
 
             if ((gameState == GameStates.GameOver))
