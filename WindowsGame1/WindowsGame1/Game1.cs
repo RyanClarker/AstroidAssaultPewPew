@@ -24,7 +24,7 @@ namespace WindowsGame1
         Texture2D spriteSheet;
         StarField starField;
         AsteroidManager asteroidManager;
-
+        PlayerManager playerManager;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -74,6 +74,16 @@ namespace WindowsGame1
                 20,
                 this.Window.ClientBounds.Width,
                 this.Window.ClientBounds.Height);
+
+            playerManager = new PlayerManager(
+                spriteSheet,
+                new Rectangle(0, 150, 50, 50),
+                3,
+                new Rectangle(
+                    0,
+                    0,
+                    this.Window.ClientBounds.Width,
+                    this.Window.ClientBounds.Height));
             // TODO: use this.Content to load your game content here
         }
 
@@ -103,7 +113,8 @@ namespace WindowsGame1
                 case GameStates.TitleScreen:
                     break;
 
-                case GameStates.Playing: starField.Update(gameTime); asteroidManager.Update(gameTime);
+                case GameStates.Playing: starField.Update(gameTime); asteroidManager.Update(gameTime);playerManager.Update(gameTime);
+                    
                     break;
 
                 case GameStates.PlayerDead:
@@ -139,6 +150,7 @@ namespace WindowsGame1
             {
                 starField.Draw(spriteBatch);
                 asteroidManager.Draw(spriteBatch);
+                playerManager.Draw(spriteBatch);
             }
 
             if ((gameState == GameStates.GameOver))
