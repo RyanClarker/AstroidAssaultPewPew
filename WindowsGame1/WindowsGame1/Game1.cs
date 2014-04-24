@@ -19,12 +19,13 @@ namespace WindowsGame1
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         enum GameStates { TitleScreen, Playing, PlayerDead, GameOver};
-        GameStates gameState = GameStates.Playing;
+        GameStates gameState = GameStates.TitleScreen;
         Texture2D titleScreen;
         Texture2D spriteSheet;
         StarField starField;
         AsteroidManager asteroidManager;
         PlayerManager playerManager;
+        EnemyManager enemyManager;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -84,6 +85,18 @@ namespace WindowsGame1
                     0,
                     this.Window.ClientBounds.Width,
                     this.Window.ClientBounds.Height));
+
+            enemyManager = new EnemyManager(
+                spriteSheet,
+                new Rectangle(0,200,50,50),
+                6,
+                playerManager,
+                new Rectangle(
+                    0,
+                    0,
+                    this.Window.ClientBounds.Width,
+                    this.Window.ClientBounds.Height));
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -113,7 +126,7 @@ namespace WindowsGame1
                 case GameStates.TitleScreen:
                     break;
 
-                case GameStates.Playing: starField.Update(gameTime); asteroidManager.Update(gameTime);playerManager.Update(gameTime);
+                case GameStates.Playing: starField.Update(gameTime); asteroidManager.Update(gameTime); playerManager.Update(gameTime); enemyManager.Update(gameTime);
                     
                     break;
 
@@ -151,6 +164,7 @@ namespace WindowsGame1
                 starField.Draw(spriteBatch);
                 asteroidManager.Draw(spriteBatch);
                 playerManager.Draw(spriteBatch);
+                enemyManager.Draw(spriteBatch);
             }
 
             if ((gameState == GameStates.GameOver))
